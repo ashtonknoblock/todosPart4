@@ -16,11 +16,17 @@ class App extends Component {
 
   handleChecked = (event) => {
     const copy2 = this.state.todos.slice();
-    const thingToChange= copy2[event.target.id] 
+    const thingToChange = copy2[event.target.id] 
     thingToChange.completed ? thingToChange.completed = false : thingToChange.completed = true;
     this.setState({todos: copy2})
-    
-    
+    }
+
+    destroyOnClick = (event) => {
+      const copy3 = this.state.todos.slice();
+      const thingToDelete = event.target.id
+      copy3.splice(thingToDelete, 1)
+      console.log(copy3)
+      this.setState({todos: copy3})
     }
 
   handleChange = (event) => {
@@ -52,7 +58,8 @@ class App extends Component {
           <h1>To Do</h1>
             <input type="text" id="text" className="new-todo" placeholder="What needs to be done?" 
             onKeyPress={this.handleKeyPress} onChange={this.handleChange} autoFocus></input>
-            <TodoList todos={this.state.todos} onClick={(event) => this.handleChecked(event)}/>
+            <TodoList todos={this.state.todos} onClick={(event) => this.handleChecked(event)} 
+            destroyOnClick={ (event) => this.destroyOnClick(event)}/>
         </header>
       </section>
     );
@@ -61,10 +68,6 @@ class App extends Component {
 
 
 class TodoItem extends Component {
-
-  destroy = (event) => {
-    console.log('destroy!')
-  }
   
 
 render() {
@@ -81,7 +84,7 @@ const renderComplete = isCompleted ? (
     <div className="view">
       {renderComplete} 
       <label>{this.props.TodoItem}</label>
-      <button className="destroy" onClick={this.destroy}></button>
+      <button className="destroy" id={this.props.id-1} onClick={(event) => this.props.destroyOnClick(event)}></button>
     </div>
 </li>
     )
@@ -95,7 +98,13 @@ render() {
   <React.Fragment>
     <section className="main" >
       <ul className="todo-list">
-        {this.props.todos.map( todo => <TodoItem onClick={(event) => this.props.onClick(event)} TodoItem={todo.title} TodoCompleted={todo.completed} key={todo.id} id={todo.id} />)}
+        {this.props.todos.map( todo => <TodoItem 
+        onClick={(event) => this.props.onClick(event)} 
+        destroyOnClick={(event) => this.props.destroyOnClick(event)}
+        TodoItem={todo.title} 
+        TodoCompleted={todo.completed} 
+        key={todo.id} 
+        id={todo.id} />)}
       </ul>
     </section>
   </React.Fragment>
