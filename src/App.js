@@ -22,16 +22,28 @@ class App extends Component {
     }
 
     destroyOnClick = (event) => {
-      const copy3 = this.state.todos.slice();
-      const thingToDelete = event.target.id
-      copy3.splice(thingToDelete, 1)
+      const copy3 = this.state.todos.slice(); 
+      const Myindex = copy3.findIndex(item => item.id == event.target.id)+1
+      console.log(event.target.id)
+      console.log(Myindex)
+      copy3.splice(Myindex, 1) 
       console.log(copy3)
       this.setState({todos: copy3})
     }
 
+
   handleChange = (event) => {
     console.log(this.state)
   }
+
+
+  deleteCompleted = (event) => {
+    const copy4 = this.state.todos.slice();
+    const toDeltete = copy4.filter(item => item.completed !== true )
+    this.setState({todos: toDeltete})
+
+  }
+
 
   handleKeyPress = (event) => {
     const copy = this.state.todos.slice();
@@ -51,6 +63,7 @@ class App extends Component {
     }
   }
 
+
   render() {
     return (
       <section className="todoapp">
@@ -61,35 +74,16 @@ class App extends Component {
             <TodoList todos={this.state.todos} onClick={(event) => this.handleChecked(event)} 
             destroyOnClick={ (event) => this.destroyOnClick(event)}/>
         </header>
+        <footer className="footer">
+         <span className="todo-count"><strong>0</strong> item(s) left</span>
+         <button className="clear-completed" onClick={this.deleteCompleted}>Clear completed</button>
+       </footer>
       </section>
     );
   }
 }
 
 
-class TodoItem extends Component {
-  
-
-render() {
-const isCompleted = this.props.TodoCompleted;
-const renderComplete = isCompleted ? (
-  <input id={this.props.id-1} className="toggle" type="checkbox" onClick={(event) => this.props.onClick(event)} defaultChecked></input> //if completed or true, then its checked.
-) : (
-  <input id={this.props.id-1} className="toggle" type="checkbox" onClick={(event) => this.props.onClick(event)} ></input> //if not complete, or false, then its not checked.
-)
-
-
-  return(
-<li className={isCompleted ? 'completed' : ''}>
-    <div className="view">
-      {renderComplete} 
-      <label>{this.props.TodoItem}</label>
-      <button className="destroy" id={this.props.id-1} onClick={(event) => this.props.destroyOnClick(event)}></button>
-    </div>
-</li>
-    )
-  }
-}
 
 class TodoList extends Component {
 
@@ -112,6 +106,30 @@ render() {
 }
 }
 
+
+
+class TodoItem extends Component {
+
+  render() {
+  const isCompleted = this.props.TodoCompleted;
+  const renderComplete = isCompleted ? (
+    <input id={this.props.id-1} className="toggle" type="checkbox" onClick={(event) => this.props.onClick(event)} defaultChecked></input> //if completed or true, then its checked.
+  ) : (
+    <input id={this.props.id-1} className="toggle" type="checkbox" onClick={(event) => this.props.onClick(event)} ></input> //if not complete, or false, then its not checked.
+  )
+  
+  
+    return(
+  <li className={isCompleted ? 'completed' : ''}>
+      <div className="view">
+        {renderComplete} 
+        <label>{this.props.TodoItem}</label>
+        <button className="destroy" id={this.props.id-1} onClick={(event) => this.props.destroyOnClick(event)}></button>
+      </div>
+  </li>
+      )
+    }
+  }
 
 
 export default App;
