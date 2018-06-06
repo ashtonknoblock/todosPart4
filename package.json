@@ -1,5 +1,5 @@
 {
-  "homepage": "https://ashtonknoblock.github.io/todosPart2",
+  "homepage": "https://ashtonknoblock.github.io/todosPart3",
   "name": "todos",
   "version": "0.1.0",
   "private": true,
@@ -9,6 +9,7 @@
     "global": "^4.3.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-router-dom": "^4.3.0",
     "react-scripts": "1.1.4"
   },
   "scripts": {
